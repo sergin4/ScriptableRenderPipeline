@@ -62,7 +62,7 @@ linux_apis:
     flavor: b1.large
     type: Unity::VM::GPU
     image: sdet/gamecode_win10:stable
-
+  skip_checkout: true
   commands:
     - git clone git@github.cds.internal.unity3d.com:unity/utr.git -b staging TestProjects/{{ project.folder }}/utr
     - pip install unity-downloader-cli --extra-index-url https://artifactory.eu-cph-1.unityops.net/api/pypi/common-python/simple --pre
@@ -156,6 +156,7 @@ Build_{{ project.name }}_OSX_OpenGLCore_Player_{{ editor.version }}:
       type: Unity::VM::osx
       image: buildfarm/mac:stable
       flavor: m1.mac
+  skip_checkout: true
   commands:
       - git clone git@github.cds.internal.unity3d.com:unity/utr.git -b staging TestProjects/{{ project.folder }}/utr
       - pip install unity-downloader-cli --extra-index-url https://artifactory.eu-cph-1.unityops.net/api/pypi/common-python/simple
