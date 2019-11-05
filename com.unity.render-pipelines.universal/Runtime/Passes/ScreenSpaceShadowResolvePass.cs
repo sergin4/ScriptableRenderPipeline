@@ -68,6 +68,15 @@ namespace UnityEngine.Rendering.Universal.Internal
             }
 
             context.ExecuteCommandBuffer(cmd);
+
+            if (renderingData.cameraData.isXRMultipass)
+            {
+                cmd.Clear();
+                RenderTargetIdentifier screenSpaceOcclusionTexture = m_ScreenSpaceShadowmap.Identifier();
+                cmd.SetGlobalTexture(m_ScreenSpaceShadowmap.id, screenSpaceOcclusionTexture);
+                context.ExecuteCommandBuffer(cmd);
+                cmd.Clear();
+            }
             CommandBufferPool.Release(cmd);
         }
 
@@ -78,6 +87,7 @@ namespace UnityEngine.Rendering.Universal.Internal
                 throw new ArgumentNullException("cmd");
 
             cmd.ReleaseTemporaryRT(m_ScreenSpaceShadowmap.id);
+            eyeIndex = 0;
         }
     }
 }

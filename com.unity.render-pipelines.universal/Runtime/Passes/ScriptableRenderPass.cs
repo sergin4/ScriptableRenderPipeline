@@ -55,6 +55,8 @@ namespace UnityEngine.Rendering.Universal
             get => m_ClearColor;
         }
 
+        public int eyeIndex { get; set; }
+
         internal bool overrideCameraTarget { get; set; }
         internal bool isBlitRenderPass { get; set; }
 
@@ -72,6 +74,7 @@ namespace UnityEngine.Rendering.Universal
             m_ClearColor = Color.black;
             overrideCameraTarget = false;
             isBlitRenderPass = false;
+            eyeIndex = 0;
         }
 
         /// <summary>
@@ -131,7 +134,9 @@ namespace UnityEngine.Rendering.Universal
         /// </summary>
         /// <param name="cmd">Use this CommandBuffer to cleanup any generated data</param>
         public virtual void FrameCleanup(CommandBuffer cmd)
-        {}
+        {
+            eyeIndex = 0;
+        }
 
         /// <summary>
         /// Execute the pass. This is where custom rendering occurs. Specific details are left to the implementation
@@ -244,6 +249,19 @@ namespace UnityEngine.Rendering.Universal
                 CoreUtils.SetRenderTarget(cmd, colorAttachment, clearFlags, clearColor, 0, CubemapFace.Unknown, -1);
             else
                 CoreUtils.SetRenderTarget(cmd, colorAttachment, colorLoadAction, colorStoreAction, clearFlags, clearColor);
+        }
+
+        public void SetupXRMultipassState(ScriptableRenderContext context, CommandBuffer cmd, RenderingData renderingData)
+        {
+            if (renderingData.cameraData.isXRMultipass)
+            {
+                Camera.StereoscopicEye eye = (Camera.StereoscopicEye)eyeIndex;
+                Camera camera = renderingData.cameraData.camera;
+                cmd.SetViewProjectionMatrices(camera.GetStereoViewMatrix(eye), camera.GetStereoProjectionMatrix(eye));
+                context.ExecuteCommandBuffer(cmd);
+                cmd.Clear();
+                ++eyeIndex;
+            }
         }
     }
 }

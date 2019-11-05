@@ -27,6 +27,8 @@ namespace UnityEngine.Rendering.Universal
         PostProcessPass m_FinalPostProcessPass;
         FinalBlitPass m_FinalBlitPass;
         CapturePass m_CapturePass;
+        BeginXRRenderPass m_BeginXRRenderPass;
+        EndXRRenderPass m_EndXRRenderPass;
 
 #if UNITY_EDITOR
         SceneViewDepthCopyPass m_SceneViewDepthCopyPass;
@@ -81,6 +83,8 @@ namespace UnityEngine.Rendering.Universal
             m_FinalPostProcessPass = new PostProcessPass(RenderPassEvent.AfterRenderingPostProcessing, data.postProcessData);
             m_CapturePass = new CapturePass(RenderPassEvent.AfterRendering);
             m_FinalBlitPass = new FinalBlitPass(RenderPassEvent.AfterRendering, m_BlitMaterial);
+            m_BeginXRRenderPass = new BeginXRRenderPass(RenderPassEvent.AfterRendering);
+            m_EndXRRenderPass = new EndXRRenderPass(RenderPassEvent.AfterRendering);
 
 #if UNITY_EDITOR
             m_SceneViewDepthCopyPass = new SceneViewDepthCopyPass(RenderPassEvent.AfterRendering + 9, m_CopyDepthMaterial);
@@ -188,6 +192,14 @@ namespace UnityEngine.Rendering.Universal
             if (additionalLightShadows)
                 EnqueuePass(m_AdditionalLightsShadowCasterPass);
 
+          for (int eye = 0; eye < renderingData.cameraData.numberOfXRPasses; ++eye)
+          {
+
+            if (cameraData.isXRMultipass)
+            {
+                EnqueuePass(m_BeginXRRenderPass);
+            }
+
             if (requiresDepthPrepass)
             {
                 m_DepthPrepass.Setup(cameraTargetDescriptor, m_DepthTexture);
@@ -293,6 +305,11 @@ namespace UnityEngine.Rendering.Universal
                 }
             }
 
+            if (cameraData.isXRMultipass)
+            {
+                EnqueuePass(m_EndXRRenderPass);
+            }
+
 #if UNITY_EDITOR
             if (renderingData.cameraData.isSceneViewCamera)
             {
@@ -300,6 +317,7 @@ namespace UnityEngine.Rendering.Universal
                 EnqueuePass(m_SceneViewDepthCopyPass);
             }
 #endif
+          }
         }
 
         /// <inheritdoc />

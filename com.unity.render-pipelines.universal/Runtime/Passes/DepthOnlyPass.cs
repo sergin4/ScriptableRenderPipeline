@@ -60,17 +60,23 @@ namespace UnityEngine.Rendering.Universal.Internal
                 context.ExecuteCommandBuffer(cmd);
                 cmd.Clear();
 
+                ref CameraData cameraData = ref renderingData.cameraData;
+                Camera camera = cameraData.camera;
+                if (cameraData.isStereoEnabled)
+                {
+                    SetupXRMultipassState(context, cmd, renderingData);
+                    context.StartMultiEye(camera, eyeIndex);
+                }
+
                 var sortFlags = renderingData.cameraData.defaultOpaqueSortFlags;
                 var drawSettings = CreateDrawingSettings(m_ShaderTagId, ref renderingData, sortFlags);
                 drawSettings.perObjectData = PerObjectData.None;
 
-                ref CameraData cameraData = ref renderingData.cameraData;
-                Camera camera = cameraData.camera;
-                if (cameraData.isStereoEnabled)
-                    context.StartMultiEye(camera);
-
                 context.DrawRenderers(renderingData.cullResults, ref drawSettings, ref m_FilteringSettings);
 
+                cmd.SetGlobalTexture(depthAttachmentHandle.id, depthAttachmentHandle.Identifier());
+                context.ExecuteCommandBuffer(cmd);
+                cmd.Clear();
             }
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);
@@ -87,6 +93,8 @@ namespace UnityEngine.Rendering.Universal.Internal
                 cmd.ReleaseTemporaryRT(depthAttachmentHandle.id);
                 depthAttachmentHandle = RenderTargetHandle.CameraTarget;
             }
+
+            eyeIndex = 0;
         }
     }
 }

@@ -39,12 +39,13 @@ namespace UnityEngine.Rendering.Universal.Internal
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
             CommandBuffer cmd = CommandBufferPool.Get(m_ProfilerTag);
+            Camera camera = renderingData.cameraData.camera;
             using (new ProfilingSample(cmd, m_ProfilerTag))
             {
-                context.ExecuteCommandBuffer(cmd);
-                cmd.Clear();
+                SetupXRMultipassState(context, cmd, renderingData);
+                if (renderingData.cameraData.isXRMultipass)
+                    XRUtils.DrawOcclusionMesh(cmd, renderingData.cameraData.camera);
 
-                Camera camera = renderingData.cameraData.camera;
                 var sortFlags = (m_IsOpaque) ? renderingData.cameraData.defaultOpaqueSortFlags : SortingCriteria.CommonTransparent;
                 var drawSettings = CreateDrawingSettings(m_ShaderTagIdList, ref renderingData, sortFlags);
                 context.DrawRenderers(renderingData.cullResults, ref drawSettings, ref m_FilteringSettings, ref m_RenderStateBlock);

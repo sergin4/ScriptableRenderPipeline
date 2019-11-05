@@ -190,7 +190,10 @@ namespace UnityEngine.Rendering.Universal
             Camera camera = renderingData.cameraData.camera;
             SetCameraRenderState(context, ref renderingData.cameraData);
 
-            SortStable(m_ActiveRenderPassQueue);
+            bool stereoEnabled = renderingData.cameraData.isStereoEnabled;
+
+            if (!stereoEnabled || !renderingData.cameraData.isXRMultipass)
+                SortStable(m_ActiveRenderPassQueue);
 
             // Cache the time for after the call to `SetupCameraProperties` and set the time variables in shader
             // For now we set the time variables per camera, as we plan to remove `SetupCamearProperties`.
@@ -230,7 +233,6 @@ namespace UnityEngine.Rendering.Universal
             /// * Setup camera world clip planes properties
             /// * Setup HDR keyword
             /// * Setup global time properties (_Time, _SinTime, _CosTime)
-            bool stereoEnabled = renderingData.cameraData.isStereoEnabled;
             context.SetupCameraProperties(camera, stereoEnabled);
 
             // Override time values from when `SetupCameraProperties` were called.
@@ -238,7 +240,7 @@ namespace UnityEngine.Rendering.Universal
             // We can remove this after removing `SetupCameraProperties` as the values should be per frame, and not per camera.
             SetShaderTimeValues(time, deltaTime, smoothDeltaTime);
 
-            if (stereoEnabled)
+            if (stereoEnabled && !renderingData.cameraData.isXRMultipass)
                 BeginXRRendering(context, camera);
 
 #if VISUAL_EFFECT_GRAPH_0_0_1_OR_NEWER
@@ -257,7 +259,7 @@ namespace UnityEngine.Rendering.Universal
             // In this block after rendering drawing happens, e.g, post processing, video player capture.
             ExecuteBlock(RenderPassBlock.AfterRendering, blockRanges, context, ref renderingData);
 
-            if (stereoEnabled)
+            if (stereoEnabled && !renderingData.cameraData.isXRMultipass)
                 EndXRRendering(context, camera);
 
             DrawGizmos(context, camera, GizmoSubset.PostImageEffects);
@@ -384,7 +386,8 @@ namespace UnityEngine.Rendering.Universal
                 passDepthAttachment = m_CameraDepthTarget;
             }
 
-            if (passColorAttachment == m_CameraColorTarget && !m_FirstCameraRenderPassExecuted)
+            if ((passColorAttachment == m_CameraColorTarget && !m_FirstCameraRenderPassExecuted) ||
+                (cameraData.isXRMultipass && renderPass.GetType() == typeof(Internal.BeginXRRenderPass)))
             {
                 m_FirstCameraRenderPassExecuted = true;
 
@@ -402,15 +405,15 @@ namespace UnityEngine.Rendering.Universal
                 context.ExecuteCommandBuffer(cmd);
                 cmd.Clear();
 
-                if (cameraData.isStereoEnabled)
+                if (cameraData.isStereoEnabled && !cameraData.isXRMultipass)
                 {
-                    context.StartMultiEye(cameraData.camera);
+                    context.StartMultiEye(cameraData.camera, renderPass.eyeIndex);
                     XRUtils.DrawOcclusionMesh(cmd, cameraData.camera);
                 }
             }
 
             // Only setup render target if current render pass attachments are different from the active ones
-            else if (passColorAttachment != m_ActiveColorAttachment || passDepthAttachment != m_ActiveDepthAttachment)
+            else if (passColorAttachment != m_ActiveColorAttachment || passDepthAttachment != m_ActiveDepthAttachment || cameraData.isXRMultipass)
                 SetRenderTarget(cmd, passColorAttachment, passDepthAttachment, renderPass.clearFlag, renderPass.clearColor);
 
             context.ExecuteCommandBuffer(cmd);
