@@ -60,6 +60,10 @@ namespace UnityEngine.Rendering.Universal.Internal
                 context.ExecuteCommandBuffer(cmd);
                 cmd.Clear();
 
+                var sortFlags = renderingData.cameraData.defaultOpaqueSortFlags;
+                var drawSettings = CreateDrawingSettings(m_ShaderTagId, ref renderingData, sortFlags);
+                drawSettings.perObjectData = PerObjectData.None;
+
                 ref CameraData cameraData = ref renderingData.cameraData;
                 Camera camera = cameraData.camera;
                 if (cameraData.isStereoEnabled)
@@ -68,15 +72,14 @@ namespace UnityEngine.Rendering.Universal.Internal
                     context.StartMultiEye(camera, eyeIndex);
                 }
 
-                var sortFlags = renderingData.cameraData.defaultOpaqueSortFlags;
-                var drawSettings = CreateDrawingSettings(m_ShaderTagId, ref renderingData, sortFlags);
-                drawSettings.perObjectData = PerObjectData.None;
-
                 context.DrawRenderers(renderingData.cullResults, ref drawSettings, ref m_FilteringSettings);
 
-                cmd.SetGlobalTexture(depthAttachmentHandle.id, depthAttachmentHandle.Identifier());
-                context.ExecuteCommandBuffer(cmd);
-                cmd.Clear();
+                if (renderingData.cameraData.isXRMultipass)
+                {
+                    cmd.SetGlobalTexture(depthAttachmentHandle.id, depthAttachmentHandle.Identifier());
+                    context.ExecuteCommandBuffer(cmd);
+                    cmd.Clear();
+                }
             }
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);
