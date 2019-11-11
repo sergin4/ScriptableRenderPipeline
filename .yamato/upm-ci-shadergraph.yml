@@ -72,7 +72,7 @@ linux_apis:
       paths:
         - "**/test-results/**"
   dependencies:
-  - .yamato/upm-ci-universal.yml#Build_{{ project.name }}_Windows64_{{ win_api.name }}_Player_{{ editor.version }}
+  - .yamato/upm-ci-shadergraph.yml#Build_{{ project.name }}_Windows64_{{ win_api.name }}_Player_{{ editor.version }}
   
 Build_{{ project.name }}_Windows64_{{ win_api.name }}_Player_{{ editor.version }}:
   name : Build {{ project.name }} on Windows64_{{ win_api.name }}_Player on version {{ editor.version }}
@@ -162,7 +162,7 @@ Build_{{ project.name }}_OSX_OpenGLCore_Player_{{ editor.version }}:
 
       - cd TestProjects/{{ project.folder }} && utr/utr {{ testplatform.args }}OSX --testproject=. --editor-location=.Editor --artifacts_path=test-results --timeout=1200 --player-load-path=players --player-connection-ip=auto
   dependencies:
-  - .yamato/upm-ci-universal.yml#Build_{{ project.name }}_OSX_OpenGLCore_Player_{{ editor.version }}
+  - .yamato/upm-ci-shadergraph.yml#Build_{{ project.name }}_OSX_OpenGLCore_Player_{{ editor.version }}
   artifacts:
       logs:
           paths:

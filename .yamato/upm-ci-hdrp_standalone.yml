@@ -55,7 +55,7 @@ mac_apis:
       paths:
         - "**/test-results/**"
   dependencies:
-  - .yamato/upm-ci-universal.yml#Build_{{ project.name }}_Windows64_{{ win_api.name }}_Player_{{ editor.version }}
+  - .yamato/upm-ci-hdrp_standalone.yml#Build_{{ project.name }}_Windows64_{{ win_api.name }}_Player_{{ editor.version }}
   
 Build_{{ project.name }}_Windows64_{{ win_api.name }}_Player_{{ editor.version }}:
   name : Build {{ project.name }} on Windows64_{{ win_api.name }}_Player on version {{ editor.version }}

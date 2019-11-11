@@ -44,7 +44,7 @@ projects:
       paths:
         - "**/test-results/**"
   dependencies:
-  - .yamato/upm-ci-universal.yml#Build_{{ project.name }}_Windows64_Player_{{ editor.version }}
+  - .yamato/upm-ci-shadergraph_stereo.yml#Build_{{ project.name }}_Windows64_Player_{{ editor.version }}
   
 Build_{{ project.name }}_Windows64_Player_{{ editor.version }}:
   name : Build {{ project.name }} on Windows64_{{ win_api.name }}_Player on version {{ editor.version }}
