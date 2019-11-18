@@ -99,6 +99,8 @@ namespace UnityEngine.Experimental.Rendering.Universal
                     context.ExecuteCommandBuffer(cmd);
                 }
 
+                SetupXRMultipassState(context, cmd, renderingData);
+
                 context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref m_FilteringSettings,
                     ref m_RenderStateBlock);
 
@@ -113,6 +115,11 @@ namespace UnityEngine.Experimental.Rendering.Universal
             }
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);
+        }
+
+        public override void FrameCleanup(CommandBuffer cmd)
+        {
+            eyeIndex = 0;
         }
     }
 }

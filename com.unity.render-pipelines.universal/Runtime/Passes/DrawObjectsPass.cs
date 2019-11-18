@@ -41,6 +41,7 @@ namespace UnityEngine.Rendering.Universal.Internal
             CommandBuffer cmd = CommandBufferPool.Get(m_ProfilerTag);
             using (new ProfilingSample(cmd, m_ProfilerTag))
             {
+                SetupXRMultipassState(context, cmd, renderingData);
                 context.ExecuteCommandBuffer(cmd);
                 cmd.Clear();
 
@@ -54,6 +55,11 @@ namespace UnityEngine.Rendering.Universal.Internal
             }
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);
+        }
+
+        public override void FrameCleanup(CommandBuffer cmd)
+        {
+            eyeIndex = 0;
         }
     }
 }

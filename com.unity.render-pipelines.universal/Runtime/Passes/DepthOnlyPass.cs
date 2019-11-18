@@ -67,7 +67,10 @@ namespace UnityEngine.Rendering.Universal.Internal
                 ref CameraData cameraData = ref renderingData.cameraData;
                 Camera camera = cameraData.camera;
                 if (cameraData.isStereoEnabled)
-                    context.StartMultiEye(camera);
+                {
+                    context.StartMultiEye(camera, eyeIndex);
+                    SetupXRMultipassState(context, cmd, renderingData);
+                }
 
                 context.DrawRenderers(renderingData.cullResults, ref drawSettings, ref m_FilteringSettings);
 
@@ -87,6 +90,8 @@ namespace UnityEngine.Rendering.Universal.Internal
                 cmd.ReleaseTemporaryRT(depthAttachmentHandle.id);
                 depthAttachmentHandle = RenderTargetHandle.CameraTarget;
             }
+
+            eyeIndex = 0;
         }
     }
 }
