@@ -756,9 +756,8 @@ namespace UnityEngine.Rendering.HighDefinition
                 cmd.SetGlobalInt(HDShaderIDs._EnvLightSkyEnabled, 0);
             }
         }
-        internal void GetBuiltinParameters(out BuiltinSkyParameters skyParams, SkyUpdateContext skyContext, HDCamera hdCamera, Light sunLight, RTHandle colorBuffer, RTHandle depthBuffer, DebugDisplaySettings debugSettings, int frameIndex, CommandBuffer cmd)
+        internal void GetBuiltinParameters(ref BuiltinSkyParameters skyParams, SkyUpdateContext skyContext, HDCamera hdCamera, Light sunLight, RTHandle colorBuffer, RTHandle depthBuffer, DebugDisplaySettings debugSettings, int frameIndex, CommandBuffer cmd)
         {
-            skyParams = new BuiltinSkyParameters();
             skyParams.hdCamera                  = hdCamera;
             skyParams.commandBuffer             = cmd;
             skyParams.sunLight                  = sunLight;
@@ -778,7 +777,7 @@ namespace UnityEngine.Rendering.HighDefinition
             var skyContext = hdCamera.visualSky;
             if (skyContext.IsValid())
             {
-                GetBuiltinParameters(out m_BuiltinParameters,
+                GetBuiltinParameters(ref m_BuiltinParameters,
                                         skyContext,
                                         hdCamera,
                                         sunLight,
@@ -807,7 +806,7 @@ namespace UnityEngine.Rendering.HighDefinition
             {
                 using (new ProfilingSample(cmd, "Sky Pass"))
                 {
-                    GetBuiltinParameters(out m_BuiltinParameters,
+                    GetBuiltinParameters(ref m_BuiltinParameters,
                                          skyContext,
                                          hdCamera,
                                          sunLight,
