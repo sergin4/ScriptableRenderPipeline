@@ -15,7 +15,7 @@ namespace UnityEngine.Rendering.HighDefinition
 
             unchecked
             {
-                hash = hdriSky.value != null ? hash * 23 + hdriSky.GetHashCode() : hash;
+                hash = hdriSky.value != null ? hash * 23 + hdriSky.value.GetHashCode() : hash;
             }
 
             return hash;
