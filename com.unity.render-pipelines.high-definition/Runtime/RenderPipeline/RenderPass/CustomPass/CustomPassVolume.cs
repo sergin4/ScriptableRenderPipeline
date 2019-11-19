@@ -176,7 +176,10 @@ namespace UnityEngine.Rendering.HighDefinition
         
         public static CustomPassVolume GetActivePassVolume(CustomPassInjectionPoint injectionPoint)
         {
-            return m_OverlappingPassVolumes.FirstOrDefault(v => v.injectionPoint == injectionPoint);
+            foreach (var volume in m_OverlappingPassVolumes)
+                if (volume.injectionPoint == injectionPoint)
+                    return volume;
+            return null;
         }
 
         /// <summary>
