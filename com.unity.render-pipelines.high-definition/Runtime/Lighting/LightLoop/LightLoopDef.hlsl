@@ -387,7 +387,7 @@ float GetScreenSpaceShadow(PositionInputs posInput, uint shadowIndex)
 float3 GetScreenSpaceColorShadow(PositionInputs posInput, int shadowIndex)
 {
     if (SCREEN_SPACE_COLOR_SHADOW_FLAG & shadowIndex)
-        return LOAD_TEXTURE2D_ARRAY(_ScreenSpaceShadowsTexture, posInput.positionSS, INDEX_TEXTURE2D_ARRAY_X(shadowIndex & SCREEN_SPACE_SHADOW_INDEX_FLAG)).xyz;
+        return LOAD_TEXTURE2D_ARRAY(_ScreenSpaceShadowsTexture, posInput.positionSS, INDEX_TEXTURE2D_ARRAY_X(shadowIndex & SCREEN_SPACE_SHADOW_INDEX_MASK)).xyz;
     else
-        return LOAD_TEXTURE2D_ARRAY(_ScreenSpaceShadowsTexture, posInput.positionSS, INDEX_TEXTURE2D_ARRAY_X(shadowIndex & SCREEN_SPACE_SHADOW_INDEX_FLAG)).xxx;
+        return LOAD_TEXTURE2D_ARRAY(_ScreenSpaceShadowsTexture, posInput.positionSS, INDEX_TEXTURE2D_ARRAY_X(shadowIndex & SCREEN_SPACE_SHADOW_INDEX_MASK)).xxx;
 }

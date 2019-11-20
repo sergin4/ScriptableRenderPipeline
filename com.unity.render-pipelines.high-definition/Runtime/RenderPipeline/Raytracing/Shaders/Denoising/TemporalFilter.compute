@@ -188,7 +188,7 @@ void TEMPORAL_ACCUMULATION(uint3 dispatchThreadId : SV_DispatchThreadID, uint2 g
     // Get the current sample to filter
     float3 color = LOAD_TEXTURE2D_X(_DenoiseInputTexture, centerCoord).xyz;
     #if HISTORY_IS_ARRAY
-    float4 history = LOAD_TEXTURE2D_ARRAY(_HistoryBuffer, historyTapCoord, INDEX_TEXTURE2D_ARRAY_X(_DenoisingArraySlot));
+    float4 history = LOAD_TEXTURE2D_ARRAY(_HistoryBuffer, historyTapCoord, INDEX_TEXTURE2D_ARRAY_X(_DenoisingHistorySlot));
     #else
     float4 history = LOAD_TEXTURE2D_X(_HistoryBuffer, historyTapCoord);
     #endif
@@ -237,7 +237,7 @@ void COPY_HISTORY(uint3 dispatchThreadId : SV_DispatchThreadID)
     #endif
 #else
     #if OUTPUT_IS_ARRAY
-    _DenoiseOutputTextureRW[uint3(dispatchThreadId.xy, INDEX_TEXTURE2D_ARRAY_X(_DenoisingArraySlot))] = LOAD_TEXTURE2D_X(_DenoiseInputTexture, dispatchThreadId.xy);
+    _DenoiseOutputTextureRW[uint3(dispatchThreadId.xy, INDEX_TEXTURE2D_ARRAY_X(_DenoisingHistorySlot))] = LOAD_TEXTURE2D_X(_DenoiseInputTexture, dispatchThreadId.xy);
     #else
     _DenoiseOutputTextureRW[COORD_TEXTURE2D_X(dispatchThreadId.xy)] = LOAD_TEXTURE2D_X(_DenoiseInputTexture, dispatchThreadId.xy);
     #endif

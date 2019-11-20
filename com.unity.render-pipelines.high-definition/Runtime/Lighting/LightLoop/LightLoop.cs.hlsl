@@ -56,7 +56,7 @@
 #define MATERIAL_FEATURE_MASK_FLAGS (4095)
 #define SCREEN_SPACE_COLOR_SHADOW_FLAG (256)
 #define INVALID_SCREEN_SPACE_SHADOW (255)
-#define SCREEN_SPACE_SHADOW_INDEX_FLAG (255)
+#define SCREEN_SPACE_SHADOW_INDEX_MASK (255)
 
 // Generated from UnityEngine.Rendering.HighDefinition.SFiniteLightBound
 // PackingRules = Exact

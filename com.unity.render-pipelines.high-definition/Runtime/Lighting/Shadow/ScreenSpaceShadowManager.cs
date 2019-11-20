@@ -253,6 +253,7 @@ namespace UnityEngine.Rendering.HighDefinition
                         RTHandle shadowHistoryArray = hdCamera.GetCurrentFrameRT((int)HDCameraFrameHistoryType.RaytracedShadow)
                             ?? hdCamera.AllocHistoryFrameRT((int)HDCameraFrameHistoryType.RaytracedShadow, ShadowHistoryBufferAllocatorFunction, 1);
 
+                        int dirShadowIndex = m_CurrentSunLightDirectionalLightData.screenSpaceShadowIndex & (int)LightDefinitions.s_ScreenSpaceShadowIndexMask;
                         // Apply the simple denoiser (if required)
                         if (m_CurrentSunLightAdditionalLightData.filterTracedShadow)
                         {
@@ -263,14 +264,13 @@ namespace UnityEngine.Rendering.HighDefinition
 
                             // Apply the temporal denoiser
                             HDTemporalFilter temporalFilter = GetTemporalFilter();
-                            temporalFilter.DenoiseBuffer(cmd, hdCamera, m_ShadowIntermediateBufferRGBA0, shadowHistoryArray, m_ShadowIntermediateBufferRGBA1, singleChannel: !m_CurrentSunLightAdditionalLightData.colorShadow, slotIndex: m_CurrentSunLightDirectionalLightData.screenSpaceShadowIndex, historyValidity: historyValidity);
+                            temporalFilter.DenoiseBuffer(cmd, hdCamera, m_ShadowIntermediateBufferRGBA0, shadowHistoryArray, m_ShadowIntermediateBufferRGBA1, singleChannel: !m_CurrentSunLightAdditionalLightData.colorShadow, slotIndex: dirShadowIndex, historyValidity: historyValidity);
 
                             // Apply the spatial denoiser
                             HDSimpleDenoiser simpleDenoiser = GetSimpleDenoiser();
                             simpleDenoiser.DenoiseBufferNoHistory(cmd, hdCamera, m_ShadowIntermediateBufferRGBA1, m_ShadowIntermediateBufferRGBA0, m_CurrentSunLightAdditionalLightData.filterSizeTraced, singleChannel: !m_CurrentSunLightAdditionalLightData.colorShadow);
                         }
 
-                        int dirShadowIndex = m_CurrentSunLightDirectionalLightData.screenSpaceShadowIndex & (int)LightDefinitions.s_ScreenSpaceShadowIndexFlag;
                         int shadowKernel = m_CurrentSunLightAdditionalLightData.colorShadow ? m_OutputColorShadowTextureKernel : m_OutputShadowTextureKernel;
                         cmd.SetComputeTextureParam(m_ScreenSpaceShadowsCS, shadowKernel, HDShaderIDs._RaytracedDirectionalShadowIntegration, m_ShadowIntermediateBufferRGBA0);
                         cmd.SetComputeTextureParam(m_ScreenSpaceShadowsCS, shadowKernel, HDShaderIDs._ScreenSpaceShadowsTextureRW, m_ScreenSpaceShadowTextureArray);

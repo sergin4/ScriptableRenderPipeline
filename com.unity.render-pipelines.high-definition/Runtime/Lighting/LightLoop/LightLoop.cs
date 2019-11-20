@@ -99,7 +99,7 @@ namespace UnityEngine.Rendering.HighDefinition
         // Screen space shadow flags
         public static uint s_ScreenSpaceColorShadowFlag = 0x100;
         public static uint s_InvalidScreenSpaceShadow = 0xff;
-        public static uint s_ScreenSpaceShadowIndexFlag = 0xff;
+        public static uint s_ScreenSpaceShadowIndexMask = 0xff;
     }
 
     [GenerateHLSL]
@@ -1125,7 +1125,7 @@ namespace UnityEngine.Rendering.HighDefinition
             lightData.volumetricLightDimmer = additionalLightData.volumetricDimmer;
 
             lightData.shadowIndex = lightData.cookieIndex = -1;
-            lightData.screenSpaceShadowIndex = -1;
+            lightData.screenSpaceShadowIndex = (int)LightDefinitions.s_InvalidScreenSpaceShadow;
             lightData.isRayTracedContactShadow = 0.0f;
 
 
@@ -1153,7 +1153,7 @@ namespace UnityEngine.Rendering.HighDefinition
             {
                 if (additionalLightData.WillRenderScreenSpaceShadow())
                 {
-                    lightData.screenSpaceShadowIndex = screenSpaceShadowIndex;
+                    lightData.screenSpaceShadowIndex = screenSpaceShadowslot;
                     if (additionalLightData.colorShadow && additionalLightData.WillRenderRayTracedShadow())
                     {
                         screenSpaceShadowslot += 3;
@@ -1377,7 +1377,7 @@ namespace UnityEngine.Rendering.HighDefinition
 
             lightData.cookieIndex = -1;
             lightData.shadowIndex = -1;
-            lightData.screenSpaceShadowIndex = -1;
+            lightData.screenSpaceShadowIndex = (int)LightDefinitions.s_InvalidScreenSpaceShadow;
             lightData.isRayTracedContactShadow = 0.0f;
 
             HDLightType lightType = additionalLightData.ComputeLightType(lightComponent);
