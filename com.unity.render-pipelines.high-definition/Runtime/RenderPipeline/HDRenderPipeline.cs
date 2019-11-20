@@ -652,6 +652,10 @@ namespace UnityEngine.Rendering.HighDefinition
                 editableMaterialRenderQueue = false
                 // Enlighten is deprecated in 2019.3 and above
                 , enlighten = false
+#if FEATURE_OVERRIDE_LOD
+                , overridesLODBias = true
+                , overridesMaximumLODLevel = true
+#endif
             };
 
             Lightmapping.SetDelegate(GlobalIlluminationUtils.hdLightsDelegate);
