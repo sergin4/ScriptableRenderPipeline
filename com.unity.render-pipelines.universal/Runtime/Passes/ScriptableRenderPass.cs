@@ -248,18 +248,5 @@ namespace UnityEngine.Rendering.Universal
             else
                 CoreUtils.SetRenderTarget(cmd, colorAttachment, colorLoadAction, colorStoreAction, clearFlags, clearColor);
         }
-
-        public void SetupXRMultipassState(ScriptableRenderContext context, CommandBuffer cmd, RenderingData renderingData)
-        {
-            if (renderingData.cameraData.isXRMultipass)
-            {
-                Camera.StereoscopicEye eye = (Camera.StereoscopicEye)eyeIndex;
-                Camera camera = renderingData.cameraData.camera;
-                cmd.SetViewProjectionMatrices(camera.GetStereoViewMatrix(eye), camera.GetStereoProjectionMatrix(eye));
-                context.ExecuteCommandBuffer(cmd);
-                cmd.Clear();
-                ++eyeIndex;
-            }
-        }
     }
 }
