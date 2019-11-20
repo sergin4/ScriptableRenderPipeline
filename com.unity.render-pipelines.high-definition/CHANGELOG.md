@@ -168,6 +168,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - VFX: Removed z-fight glitches that could appear when using deferred depth prepass and lit quad primitives
 - VFX: Preserve specular option for lit outputs (matches HDRP lit shader)
 - Fixed spot light missing from ray tracing indirect effects.
+- Improved a bit the GC calls generated during the rendering.
 
 ### Changed
 - Color buffer pyramid is not allocated anymore if neither refraction nor distortion are enabled
