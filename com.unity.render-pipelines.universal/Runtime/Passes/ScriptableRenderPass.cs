@@ -55,7 +55,7 @@ namespace UnityEngine.Rendering.Universal
             get => m_ClearColor;
         }
 
-        public int eyeIndex { get; set; }
+        internal int eyeIndex { get; set; }
 
         internal bool overrideCameraTarget { get; set; }
         internal bool isBlitRenderPass { get; set; }
