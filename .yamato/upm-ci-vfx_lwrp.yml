@@ -1,6 +1,6 @@
 editors:
-  - version: trunk
-    cmd: -u trunk
+  - version: graphics/vfx/fix/1175177-asset-bundle
+    cmd: -u graphics/vfx/fix/1175177-asset-bundle
   - version: fast-trunk
     cmd: -u trunk --fast
 platforms:
