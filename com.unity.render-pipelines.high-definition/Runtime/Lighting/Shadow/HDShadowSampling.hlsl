@@ -266,7 +266,7 @@ float SampleShadow_MSM_1tap(float3 tcs, float lightLeakBias, float momentBias, f
 //
 //                  PCSS sampling
 //
-float SampleShadow_PCSS(float3 tcs, float2 posSS, float2 scale, float2 offset, float shadowSoftness, float minFilterRadius, int blockerSampleCount, int filterSampleCount, Texture2D tex, SamplerComparisonState compSamp, SamplerState samp, float depthBias, float4 zParams)
+float SampleShadow_PCSS(float3 tcs, float2 posSS, float2 scale, float2 offset, float shadowSoftness, float minFilterRadius, int blockerSampleCount, int filterSampleCount, Texture2D tex, SamplerComparisonState compSamp, SamplerState samp, float depthBias, float4 zParams, bool isPerspective)
 {
 #if SHADOW_USE_DEPTH_BIAS == 1
     // add the depth bias
@@ -287,10 +287,16 @@ float SampleShadow_PCSS(float3 tcs, float2 posSS, float2 scale, float2 offset, f
     if (!BlockerSearch(averageBlockerDepth, numBlockers, (shadowSoftness + 0.000001) * atlasResFactor, tcs, sampleJitter, tex, samp, blockerSampleCount))
         return 1.0;
 
-
-    float dist = 1.0f / (zParams.z * averageBlockerDepth + zParams.w);
-    float distScale = 1.7667 - 0.627*dist + 0.061*dist*dist;
-    shadowSoftness *= distScale;
+    // We scale the softness also based on the distance between the occluder if we assume that the light is a sphere source.
+    if (isPerspective)
+    {
+        float dist = 1.0f / (zParams.z * averageBlockerDepth + zParams.w);
+        dist = min(dist, 7.5);
+        float dist2 = dist * dist;
+        float dist4 = dist2 * dist2;
+        float distScale = 3.298300241 - 2.001364639  * dist + 0.4967311427 * dist2 - 0.05464058455 * dist * dist2 + 0.0021974 * dist2 * dist2;
+        shadowSoftness *= distScale;
+    }
 
     //2) Penumbra Estimation
     float filterSize = shadowSoftness * PenumbraSize(tcs.z, averageBlockerDepth);
