@@ -266,7 +266,7 @@ float SampleShadow_MSM_1tap(float3 tcs, float lightLeakBias, float momentBias, f
 //
 //                  PCSS sampling
 //
-float SampleShadow_PCSS(float3 tcs, float2 posSS, float2 scale, float2 offset, float shadowSoftness, float minFilterRadius, int blockerSampleCount, int filterSampleCount, Texture2D tex, SamplerComparisonState compSamp, SamplerState samp, float depthBias)
+float SampleShadow_PCSS(float3 tcs, float2 posSS, float2 scale, float2 offset, float shadowSoftness, float minFilterRadius, int blockerSampleCount, int filterSampleCount, Texture2D tex, SamplerComparisonState compSamp, SamplerState samp, float depthBias, float4 zParams)
 {
 #if SHADOW_USE_DEPTH_BIAS == 1
     // add the depth bias
@@ -286,6 +286,11 @@ float SampleShadow_PCSS(float3 tcs, float2 posSS, float2 scale, float2 offset, f
     float numBlockers         = 0.0;
     if (!BlockerSearch(averageBlockerDepth, numBlockers, (shadowSoftness + 0.000001) * atlasResFactor, tcs, sampleJitter, tex, samp, blockerSampleCount))
         return 1.0;
+
+
+    float dist = 1.0f / (zParams.z * averageBlockerDepth + zParams.w);
+    float distScale = 1.7667 - 0.627*dist + 0.061*dist*dist;
+    shadowSoftness *= distScale;
 
     //2) Penumbra Estimation
     float filterSize = shadowSoftness * PenumbraSize(tcs.z, averageBlockerDepth);
