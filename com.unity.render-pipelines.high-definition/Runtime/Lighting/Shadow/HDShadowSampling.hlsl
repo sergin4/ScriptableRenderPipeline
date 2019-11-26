@@ -277,6 +277,10 @@ float SampleShadow_PCSS(float3 tcs, float2 posSS, float2 scale, float2 offset, f
     float sampleJitterAngle = InterleavedGradientNoise(posSS.xy, taaFrameIndex) * 2.0 * PI;
     float2 sampleJitter = float2(sin(sampleJitterAngle), cos(sampleJitterAngle));
 
+    // Note: this is a hack, but the original implementation was faulty as it didn't scale offset based on the resolution of the atlas (*not* the shadow map).
+    // All the softness fitting has been done using a reference 4096x4096, hence the following scale.
+    sampleJitter *= (4096 * _ShadowAtlasSize.zw);
+
     //1) Blocker Search
     float averageBlockerDepth = 0.0;
     float numBlockers         = 0.0;
