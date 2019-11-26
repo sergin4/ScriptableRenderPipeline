@@ -279,17 +279,18 @@ float SampleShadow_PCSS(float3 tcs, float2 posSS, float2 scale, float2 offset, f
 
     // Note: this is a hack, but the original implementation was faulty as it didn't scale offset based on the resolution of the atlas (*not* the shadow map).
     // All the softness fitting has been done using a reference 4096x4096, hence the following scale.
-    sampleJitter *= (4096 * _ShadowAtlasSize.zw);
+    float atlasResFactor = (4096 * _ShadowAtlasSize.zw);
 
     //1) Blocker Search
     float averageBlockerDepth = 0.0;
     float numBlockers         = 0.0;
-    if (!BlockerSearch(averageBlockerDepth, numBlockers, shadowSoftness + 0.000001, tcs, sampleJitter, tex, samp, blockerSampleCount))
+    if (!BlockerSearch(averageBlockerDepth, numBlockers, (shadowSoftness + 0.000001) * atlasResFactor, tcs, sampleJitter, tex, samp, blockerSampleCount))
         return 1.0;
 
     //2) Penumbra Estimation
     float filterSize = shadowSoftness * PenumbraSize(tcs.z, averageBlockerDepth);
     filterSize = max(filterSize, minFilterRadius);
+    filterSize *= atlasResFactor;
 
     //3) Filter
     return PCSS(tcs, filterSize, scale, offset, sampleJitter, tex, compSamp, filterSampleCount);
