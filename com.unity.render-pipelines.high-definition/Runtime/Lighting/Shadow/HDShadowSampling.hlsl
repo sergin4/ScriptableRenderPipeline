@@ -279,7 +279,7 @@ float SampleShadow_PCSS(float3 tcs, float2 posSS, float2 scale, float2 offset, f
 
     // Note: this is a hack, but the original implementation was faulty as it didn't scale offset based on the resolution of the atlas (*not* the shadow map).
     // All the softness fitting has been done using a reference 4096x4096, hence the following scale.
-    float atlasResFactor = (4096 * _ShadowAtlasSize.zw);
+    float atlasResFactor = (4096 * _ShadowAtlasSize.z);
 
     //1) Blocker Search
     float averageBlockerDepth = 0.0;
@@ -291,9 +291,10 @@ float SampleShadow_PCSS(float3 tcs, float2 posSS, float2 scale, float2 offset, f
     if (isPerspective)
     {
         float dist = 1.0f / (zParams.z * averageBlockerDepth + zParams.w);
-        dist = min(dist, 7.5);
+        dist = min(dist, 7.5);  // We need to clamp the distance as the fitted curve will do strange things after this and because there is no point in scale further after this point.
         float dist2 = dist * dist;
         float dist4 = dist2 * dist2;
+        // Fitted curve to match ray trace reference as good as possible. 
         float distScale = 3.298300241 - 2.001364639  * dist + 0.4967311427 * dist2 - 0.05464058455 * dist * dist2 + 0.0021974 * dist2 * dist2;
         shadowSoftness *= distScale;
     }
