@@ -51,6 +51,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed inconsistent lighting between the forward renderer and the deferred renderer, that was caused by a missing normalize operation on vertex normals on some speedtree shader variants.
 - Fixed issue where XR Multiview failed to render when using URP Shader Graph Shaders
 - Fixed lazy initialization with last version of ResourceReloader
+- Fixed an issue where setting a Normal map on a newly created material would not update. [case 1197217](https://issuetracker.unity3d.com/product/unity/issues/guid/1197217/)
 
 ## [7.1.1] - 2019-09-05
 ### Upgrade Guide
