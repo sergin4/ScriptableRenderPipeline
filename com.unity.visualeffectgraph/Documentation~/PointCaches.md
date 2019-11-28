@@ -10,13 +10,13 @@ These point caches can be used in the graph using the **Point Cache** Operator, 
 
 ## Point Cache Assets
 
-Point cache assets follow the Open Source [Point Cache](https://github.com/peeweek/pcache/blob/master/README.md) Specification and are imported as bundled Scriptable Objects. Every `.pCache` extension file will import into a bundled Scriptable Object so it can be used with the Point Cache Operator.
+Point cache Assets follow the Open Source [Point Cache](https://github.com/peeweek/pcache/blob/master/README.md) Specification and are imported as bundled Scriptable Objects. Every `.pCache` extension file will import into a bundled Scriptable Object so it can be used with the Point Cache Operator.
 
 ![](Images/PointCacheImporter.png)
 
 ## Point Cache Operator
 
-Point cache assets can be referenced in a Point Cache Operator so it displays its point count and the list of Attribute Maps contained in the Point Cache Asset. The Number and the Name of the Outputs will dynamically change depending on the Asset set in the settings field.
+Point cache Assets can be referenced in a Point Cache Operator so it displays its point count and the list of Attribute Maps contained in the Point Cache Asset. The Number and the Name of the Outputs will dynamically change depending on the Asset set in the settings field.
 
 ![](Images/PointCacheOperator.png)
 

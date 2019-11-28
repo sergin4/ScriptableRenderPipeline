@@ -71,11 +71,11 @@ Spawn Contexts expose two [Flow Input Slots](GraphLogicAndPhilosophy.md#processi
 Spawn contexts contains a state and will perform spawning particles based on a looping system.
 
 * The spawn context can emit during **loops of defined duration** (meaning the internal spawn time will reset at each loop's beginning) . By default the duration is **infinite**.
-  * In order to set the loop mode, select the context in the graph and change the loop duration popup in the inspector. (Possible Values : Infinite, Constant, Random)
+  * In order to set the loop mode, select the context in the graph and change the loop duration popup in the Inspector. (Possible Values : Infinite, Constant, Random)
 * Spawn contexts can perform **one**, **many** or an **infinity** of **loops**. 
-  * In order to set this setting, select the spawn context in the graph and change the Loop count popup in the inspector (Possible Values : Infinite, Constant, Random)
+  * In order to set this setting, select the spawn context in the graph and change the Loop count popup in the Inspector (Possible Values : Infinite, Constant, Random)
 * Spawn contexts can perform a **delay** **before** and/or a**delay after** each loop. During a delay, the spawn time elapses normally but no spawn is performed.
-  * In order to set these setting, select the spawn context in the graph and change the Delay Before Loop and Delay After Loop popups in the inspector (Possible Values: None, Constant, Random)
+  * In order to set these setting, select the spawn context in the graph and change the Delay Before Loop and Delay After Loop popups in the Inspector (Possible Values: None, Constant, Random)
 
 Here is a visual illustration of the Looping and Delay System.
 

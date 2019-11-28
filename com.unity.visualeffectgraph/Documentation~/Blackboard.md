@@ -1,7 +1,7 @@
 <div style="border: solid 1px #999; border-radius:12px; background-color:#EEE; padding: 8px; padding-left:14px; color: #555; font-size:14px;"><b>Draft:</b> The content on this page is complete, but it has not been reviewed yet.</div>
 # Blackboard
 
-The Blackboard panel is an utility panel in the [Visual Effect Graph Window](VisualEffectGraphWindow.md) that enables managing local and exposed **properties**.
+The Blackboard panel is an utility panel in the [Visual Effect Graph window](VisualEffectGraphWindow.md) that enables managing local and exposed **properties**.
 
 Properties you define in blackboard are global variables that can be used throughout the graph in order to factorize usage of the same values. For example a bounding box property can be set once and used for many particle systems. Properties can be defined, ordered and categorized in a blackboard window.
 
@@ -68,7 +68,7 @@ Exposed properties become visible on a [Visual Effect Inspector](VisualEffectCom
 
 ### Overriding Property Values
 
-You can override a property value from its default by ticking the checkbox in the left part of the inspector. 
+You can override a property value from its default by ticking the checkbox in the left part of the Inspector. 
 
 - Once overridden, the value can be changed for this instance. 
 - You can revert back to the default value by toggling off the override checkbox.

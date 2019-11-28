@@ -52,7 +52,7 @@ To do so, you can:
 
 When you’ve added the Visual Effect Graph Asset to you Hierarchy, Unity attaches the Asset to a [Visual Effect Component](VisualEffectComponent.md), which references the Asset. 
 ## Editing a Visual Effect Graph
-To edit Visual Effect Graph Assets in the  [Visual Effect Graph Window](VisualEffectGraphWindow.md) :
+To edit Visual Effect Graph Assets in the  [Visual Effect Graph window](VisualEffectGraphWindow.md) :
 
 * Open the Visual Effect Graph window (menu: __Window___ &gt; __Visual Effects__) with an empty graph. This prompts you to open a Visual Effect Graph Asset.
 * Select an existing Visual Effect Graph Asset, and click the __Edit__ button in the Inspector. This opens the Visual Effect Graph window with the graph contained in this Asset.
@@ -67,7 +67,7 @@ To preview an effect, you can:
 This lets you edit parameters directly in the Scene, see the lighting on your effect, and use the [Target GameObject Panel](VisualEffectGraphWindow.md#target-visual-effect-gameobject) features for the specific target instance of your effect.
 
 ## Manipulating Graph Elements
-When you open an Asset inside the Visual Effect Graph Window, you can see and edit the graph for that specific Asset.
+When you open an Asset inside the Visual Effect Graph window, you can see and edit the graph for that specific Asset.
 
 A Visual Effect Graph contains [Operator Nodes](Operators.md) and [Blocks](Blocks.md). Each node is in charge of processing its input properties. You can link nodes together to perform a series of calculations. All nodes end up connecting into a block (or a context) : A block defines an operation on an effect, based on its input properties. 
 

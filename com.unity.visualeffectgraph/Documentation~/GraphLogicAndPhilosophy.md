@@ -74,7 +74,7 @@ While the graph elements are different, their content and behavior tend to be th
 Settings are Fields that the user cannot connect using Property Workflow,  they are displayed for every Graph Element:
 
 * In the **Graph** : Between the Title and the property Container in the Graph.
-* In the **Inspector** : When a node is selected, the inspector can display additional, advanced settings.
+* In the **Inspector** : When a node is selected, the Inspector can display additional, advanced settings.
 
 > Changing a setting's value will request a graph recompilation
 

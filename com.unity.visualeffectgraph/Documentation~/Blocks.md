@@ -45,5 +45,5 @@ Blocks are nodes that you can manipulate in a bit different way than regular nod
 
 Adjusting Block [Settings](GraphLogicAndPhilosophy.md#settings) in the Node UI or the Inspector can change the way the Block looks and behaves. 
 
-> For instance, Changing the Composition Setting (in inspector) of a `Set Velocity` block, from Overwrite to Blend, will change the node title to `Blend Velocity` , and will add a Blend property to the Node UI as well.
+> For instance, Changing the Composition Setting (in Inspector) of a `Set Velocity` block, from Overwrite to Blend, will change the node title to `Blend Velocity` , and will add a Blend property to the Node UI as well.
 

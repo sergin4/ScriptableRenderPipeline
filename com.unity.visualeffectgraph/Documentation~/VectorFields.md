@@ -12,7 +12,7 @@ Volume File is an [Open Source specification](https://github.com/peeweek/VectorF
 
 ![](Images/VectorFieldInspector.png)
 
-When importing VF Files, unity provides the following settings in the inspector:
+When importing VF Files, unity provides the following settings in the Inspector:
 
 * **Output Format :** Precision of the Output 3D Texture
   * Half : Floating Point with 16-bit Half Precision
