@@ -1088,7 +1088,7 @@ namespace UnityEngine.Rendering.HighDefinition
 
         internal bool GetDirectionalLightData(CommandBuffer cmd, HDCamera hdCamera, GPULightType gpuLightType, VisibleLight light,
             Light lightComponent, HDAdditionalLightData additionalLightData, int lightIndex, int shadowIndex,
-            DebugDisplaySettings debugDisplaySettings, int sortedIndex, bool isPysicallyBasedSkyActive, ref int screenSpaceShadowIndex, ref int screenSpaceShadowslot)
+            DebugDisplaySettings debugDisplaySettings, int sortedIndex, bool isPhysicallyBasedSkyActive, ref int screenSpaceShadowIndex, ref int screenSpaceShadowslot)
         {
             // Clamp light list to the maximum allowed lights on screen to avoid ComputeBuffer overflow
             if (m_lightList.directionalLights.Count >= m_MaxDirectionalLightsOnScreen)
@@ -1191,7 +1191,7 @@ namespace UnityEngine.Rendering.HighDefinition
                 lightData.nonLightMappedOnly = 0;
             }
 
-            bool interactsWithSky = isPysicallyBasedSkyActive && additionalLightData.interactsWithSky;
+            bool interactsWithSky = isPhysicallyBasedSkyActive && additionalLightData.interactsWithSky;
 
             lightData.distanceFromCamera = -1; // Encode 'interactsWithSky'
 

@@ -358,6 +358,7 @@ namespace UnityEditor.Rendering.HighDefinition
                 EditorGUI.BeginChangeCheck();
                 EditorGUILayout.PropertyField(serialized.renderPipelineSettings.hdShadowInitParams.maxScreenSpaceShadowSlots, k_MaxScreenSpaceShadowSlots);
                     serialized.renderPipelineSettings.hdShadowInitParams.maxScreenSpaceShadowSlots.intValue = Mathf.Max(serialized.renderPipelineSettings.hdShadowInitParams.maxScreenSpaceShadowSlots.intValue, 4);
+                EditorGUILayout.PropertyField(serialized.renderPipelineSettings.hdShadowInitParams.screenSpaceShadowBufferFormat, k_ScreenSpaceShadowFormat);
                 --EditorGUI.indentLevel;
             }
 

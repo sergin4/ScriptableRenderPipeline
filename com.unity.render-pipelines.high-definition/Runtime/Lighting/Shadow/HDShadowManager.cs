@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.Serialization;
 
 namespace UnityEngine.Rendering.HighDefinition
@@ -110,6 +111,12 @@ namespace UnityEngine.Rendering.HighDefinition
         IMS
     }
 
+    public enum ScreenSpaceShadowFormat
+    {
+        R8G8B8A8 = GraphicsFormat.R8G8B8A8_UNorm,
+        R16G16B16A16 = GraphicsFormat.R16G16B16A16_SFloat
+    }
+
     [Serializable]
     public struct HDShadowInitParameters
     {
@@ -145,6 +152,7 @@ namespace UnityEngine.Rendering.HighDefinition
             shadowFilteringQuality              = ShaderConfig.s_DeferredShadowFiltering,
             supportScreenSpaceShadows   = false,
             maxScreenSpaceShadowSlots   = 4,
+            screenSpaceShadowBufferFormat   = ScreenSpaceShadowFormat.R16G16B16A16,
             maxDirectionalShadowMapResolution   = 2048,
             maxAreaShadowMapResolution          = 2048,
             maxPunctualShadowMapResolution      = 2048,
@@ -175,6 +183,7 @@ namespace UnityEngine.Rendering.HighDefinition
         // Screen space shadow data
         public bool supportScreenSpaceShadows;
         public int maxScreenSpaceShadowSlots;
+        public ScreenSpaceShadowFormat screenSpaceShadowBufferFormat;
     }
 
     class HDShadowResolutionRequest

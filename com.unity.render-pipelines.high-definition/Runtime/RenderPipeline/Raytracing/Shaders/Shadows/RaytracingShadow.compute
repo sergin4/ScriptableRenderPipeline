@@ -591,7 +591,7 @@ void OUTPUT_SHADOW_TEXTURE(uint3 dispatchThreadId : SV_DispatchThreadID, uint2 g
     float4 previousShadowValues = _ScreenSpaceShadowsTextureRW[uint3(currentCoord, shadowSlot)];
 
 #if defined(COLOR_SHADOW)
-    // If this is a color shadow, then it is necessarly in the first three channels, override those and return
+    // If this is a color shadow, then it is must be stored in the first three channels, override those but keeping the previous value in w
     previousShadowValues.xyz = _RaytracedDirectionalShadowIntegration[COORD_TEXTURE2D_X(currentCoord)].xyz;
     _ScreenSpaceShadowsTextureRW[uint3(currentCoord, shadowSlot)] = previousShadowValues;
 #else

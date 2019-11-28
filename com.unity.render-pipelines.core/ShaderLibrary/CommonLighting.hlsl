@@ -324,6 +324,7 @@ real3 ComputeShadowColor(real shadow, real3 shadowTint, real penumbraFlag)
 
 }
 
+// This is the same method as the one above. Simply the shadow is a real3 to support colored shadows.
 real3 ComputeShadowColor(real3 shadow, real3 shadowTint, real penumbraFlag)
 {
     // The origin expression is
@@ -339,10 +340,6 @@ real3 ComputeShadowColor(real3 shadow, real3 shadowTint, real penumbraFlag)
 
 }
 
-real3 ComputeShadowColor(real3 shadow, real3 shadowTint)
-{
-    return real3(1.0, 1.0, 1.0) - ((1.0 - shadow) * (real3(1.0, 1.0, 1.0) - shadowTint));
-}
 //-----------------------------------------------------------------------------
 // Helper functions
 //--------------------------------------------------------------------------- --

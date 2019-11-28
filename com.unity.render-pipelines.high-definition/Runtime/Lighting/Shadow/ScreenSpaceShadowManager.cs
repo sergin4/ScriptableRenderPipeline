@@ -99,7 +99,8 @@ namespace UnityEngine.Rendering.HighDefinition
 
             // Allocate the final result texture
             int numShadowTextures = Math.Max((int)Math.Ceiling(m_Asset.currentPlatformRenderPipelineSettings.hdShadowInitParams.maxScreenSpaceShadowSlots / 4.0f), 1);
-            m_ScreenSpaceShadowTextureArray = RTHandles.Alloc(Vector2.one, slices: numShadowTextures * TextureXR.slices, dimension:TextureDimension.Tex2DArray, filterMode: FilterMode.Point, colorFormat: GraphicsFormat.R16G16B16A16_SFloat, enableRandomWrite: true, useDynamicScale: true, useMipMap: false, name: "AreaShadowArrayBuffer");
+            GraphicsFormat graphicsFormat = (GraphicsFormat)m_Asset.currentPlatformRenderPipelineSettings.hdShadowInitParams.screenSpaceShadowBufferFormat;
+            m_ScreenSpaceShadowTextureArray = RTHandles.Alloc(Vector2.one, slices: numShadowTextures * TextureXR.slices, dimension:TextureDimension.Tex2DArray, filterMode: FilterMode.Point, colorFormat: graphicsFormat, enableRandomWrite: true, useDynamicScale: true, useMipMap: false, name: "AreaShadowArrayBuffer");
         }
 
         void ReleaseScreenSpaceShadows()
@@ -124,7 +125,9 @@ namespace UnityEngine.Rendering.HighDefinition
 
         static RTHandle ShadowHistoryBufferAllocatorFunction(string viewName, int frameIndex, RTHandleSystem rtHandleSystem)
         {
-            return rtHandleSystem.Alloc(Vector2.one, slices:4 * TextureXR.slices, dimension:TextureDimension.Tex2DArray, filterMode: FilterMode.Point, colorFormat: GraphicsFormat.R16G16B16A16_SFloat,
+            HDRenderPipelineAsset hdPipelineAsset = GraphicsSettings.renderPipelineAsset as HDRenderPipelineAsset;
+            GraphicsFormat graphicsFormat = (GraphicsFormat)hdPipelineAsset.currentPlatformRenderPipelineSettings.hdShadowInitParams.screenSpaceShadowBufferFormat;
+            return rtHandleSystem.Alloc(Vector2.one, slices:4 * TextureXR.slices, dimension:TextureDimension.Tex2DArray, filterMode: FilterMode.Point, colorFormat: graphicsFormat,
                 enableRandomWrite: true, useDynamicScale: true, useMipMap: false, name: string.Format("ScreenSpaceShadowHistoryBuffer{0}", frameIndex));
         }
 

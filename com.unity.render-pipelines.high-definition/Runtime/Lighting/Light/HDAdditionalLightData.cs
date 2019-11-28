@@ -736,7 +736,7 @@ namespace UnityEngine.Rendering.HighDefinition
             }
         }
 
-        [SerializeField, FormerlySerializedAs("colorShadow")]
+        [SerializeField]
         bool m_ColorShadow = true;
         /// <summary>
         /// Toggle the filtering of ray traced shadows.
