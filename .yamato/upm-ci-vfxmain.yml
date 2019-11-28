@@ -63,7 +63,7 @@ linux_apis:
       paths:
         - "**/test-results/**"
   dependencies:
-  - .yamato/upm-ci-vfxmain.yml#Build_{{ project.name }}_Windows64_{{ win_api.name }}_Player_{{ editor.version }}
+  - .yamato/upm-ci-vfxmain.yml#Build_{{ project.name }}_Win_{{ win_api.name }}_Player_{{ editor.version }}
   
 Build_{{ project.name }}_Win_{{ win_api.name }}_Player_{{ editor.version }}:
   name : Build {{ project.name }} on Win_{{ win_api.name }}_Player on version {{ editor.version }}
